@@ -1,0 +1,332 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Newtonsoft.Json
+@using TECH.Areas.Admin.Models
+@{
+    var userString = Context.Session.GetString("UserInfor");
+    var user = new UserModelView();
+    if (userString != null)
+    {
+        user = JsonConvert.DeserializeObject<UserModelView>(userString);
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @* <link rel="stylesheet" href="/website/plugins/bootstrap/bootstrap.min.css">*@
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+    <link href="~/public-custom/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/website/plugins/animate/animate.min.css">
+    <link rel="stylesheet" href="/website/plugins/fontawesome/all.css">
+    <link rel="stylesheet" href="/website/plugins/webfonts/font.css">
+    <link rel="stylesheet" href="/website/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/website/css/owl.theme.default.min.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="/website/css/style.css">
+@*<a href="~/admin/dist/css/adminlte.css.map">~/admin/dist/css/adminlte.css.map</a>
+<a href="~/admin/dist/css/adminlte.min.css.map">~/admin/dist/css/adminlte.min.css.map</a>*@
+<link href="~/admin/dist/css/adminlte.min.css" rel="stylesheet" />
+@*<link href="~/admin/dist/css/adminlte.css" rel="stylesheet" />*@
+
+    @*  <link rel="stylesheet" href="/public/customer/css/style.css">
+    <link rel="stylesheet" href="/public/customer/css/custom-style.css">*@
+
+    <!-- UIkit CSS -->
+    @*<link rel="stylesheet" href="/website/plugins/uikit/uikit.min.css" />*@
+
+    <title>Đăng nhập</title>
+    @RenderSection("Styles", required: false)
+     <style>
+        /*#header {
+            z-index: 10;
+            position: relative;
+            z-index: 99999;
+        }*/
+        .nav-banner{
+            background-color: #8fa815 !important;
+            width: 100%;
+            display: inline-block;
+            padding: 0px;
+            z-index: 900;
+        }
+        .nav-banner .container{
+            justify-content: center;
+        }
+        .banner {
+            /*background: #fff;*/
+            background: #cd1818;
+            /*border-bottom: 1px solid #fff;*/
+            min-height: 95px;
+            position: relative;
+        }
+        .banner .min-wrap {
+            position: relative;
+        }
+        .min-wrap {
+            /*width: 1200px;*/
+            margin: 0 auto;
+            background: #252525;
+        }
+        .logo {
+            float: left;
+        }
+        .logo img {
+            height: 77px !important;
+    padding: 15px 0;
+    width: 220px;
+        }
+        .user-head {
+            float: right;
+            margin-top: 38px;
+            position: relative;
+            z-index: 9999;
+        }
+        ul{
+            list-style-type: none;
+        }
+        a{
+            text-decoration: none !important;
+        }
+        ul.ul-user-head>li {
+            float: left;
+            text-transform: capitalize;
+            /*color:black;*/
+            color:#fff;
+            position: relative;
+            z-index: 10000;
+        }
+        ul.ul-user-head>li>a {
+            /*color: black;*/
+            color:#fff;
+            padding: 0 5px;
+            font-size: 13px;
+        }
+        .sH1 {
+            display: block;
+            float: left;
+            background: #e7f1fa;
+            font-size: 11px;
+            line-height: 38px;
+            padding: 0 10px;
+        }
+        .sH2 {
+            width: 360px;
+            float: right;
+            position: relative;
+        }
+        .form-sn {
+            position: absolute;
+            top: 38px;
+            left: 0;
+            right: 0;
+            z-index: 999999;
+        }
+        .search-Head {
+            position: absolute;
+            top: 28px;
+            left: 330px;
+            height: 38px;
+            z-index: 9999;
+        }
+        .sH2 .ipt-sH {
+            font-weight: 400;
+            font-size: 12px;
+            color: #ccc;
+            border: 0;
+            background: #fff;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            width: 100%;
+            height: 38px;
+            padding: 0 50px 0 8px;
+            -moz-transition: all .3s;
+            -webkit-transition: all .3s;
+            -o-transition: all .3s;
+            transition: all .3s;
+            outline: none;
+        }
+        .sH2 .btn-sH {
+            cursor: pointer;
+            background: url(../images/btn-sH.png) no-repeat;
+                    width: 55px;
+            height: 38px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            border: 0;
+        }
+        .ul-nmn{
+                margin: 0;
+                    display: inline-flex;
+                text-align: center;
+                width: 100%;
+                justify-content: center;
+        }
+        .ul-nmn>li {
+            float: left;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            z-index: 9998;
+        }
+        .ul-nmn>li>a {
+            color: #fff;
+            display: block;
+            padding: 10px 0;
+            font-size: 17px;
+        }
+        .ul-nmn>li>a>.icon-mn {
+            margin-bottom: 6px;
+        }
+        .ul-nmn>li+li {
+            margin-left: 26px;
+        }
+        .dropdown .item-quantri:hover + div{
+                display: block;
+        }
+        .dropdown-menu:hover{
+            display: block;
+        }
+        
+        .li-parent:hover > ul.menu-child{
+            display:block;
+        }
+        .menu-child:hover{
+            display:block;
+        }
+        .menu-child li:hover{
+            background:#fff;
+        }
+        .ul-nmn li{
+            padding: 0px 10px;
+        }
+        .menu-child li a{
+            cursor: pointer;
+            display: block;
+        }
+        .li-parent{
+             padding: 0px;
+        }
+
+          .breadcum {
+    font-size: 12px;
+        margin: 18px 0px;
+}
+.breadcum ul{
+       margin-bottom: 0;
+}
+.breadcum ul li {
+    display: inline;
+}
+.breadcum ul li:first-child a {
+    padding-left: 0;
+}
+.breadcum ul li a {
+    color: #0071c5;
+    padding: 0 13px 0 10px;
+    background: url(../images/icon-breacrum.png) no-repeat right 6px;
+    font-size: 15px;
+}
+.info-prod-H h3{
+        overflow: hidden;
+    white-space: nowrap;
+}
+.modal-open .modal {    
+    z-index: 10000 !important;
+}
+.item a img{
+    height: 258px;
+    width: 100%;
+}
+.custom-height{
+        min-height: 50vh;
+}
+.box-section{
+                display: inline-block;
+            width: 100%;
+}
+.container {
+    margin: 0 auto;
+    width: 99%;
+    max-width: 1260px;
+}
+
+        .shoe-product .info h3{
+            font-size: 14px;
+    margin: 5px 0;
+    overflow: hidden;
+    font-weight: 400;
+    /* height: 41px; */
+    line-height: 22px;
+    text-transform: unset;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    height: 3.4em;
+        }
+        .menu-child{
+            position: absolute;
+            min-width: 200px;
+            text-align: left;
+            background: #ddd !important;
+            color: black;
+            font-weight: bold;
+            font-size: 14px;
+            left:0px;
+            display:none;
+        }
+        .menu-child li{
+            padding: 9px 11px;
+            border-bottom: 1px solid #fff;
+        }
+        ul.ul-user-head>li>a{
+            display: inline-block;
+        }
+        .quantity-gio-hang{
+            position: absolute;
+            border-radius: 50%;
+            background: red;
+            width: 15px;
+            height: 15px;
+            font-size: 10px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            top: -11px;
+            left: 7px;
+            color: #fff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    @RenderBody() 
+    <style>
+        .custom-footer h2{
+            font-size: 22px;
+        }
+    </style>  
+  <script async defer crossorigin="anonymous" src="/website/plugins/sdk.js"></script>
+  <script src="/website/plugins/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+  <script src="/website/plugins/bootstrap/popper.min.js"></script>
+  <script src="/website/plugins/bootstrap/bootstrap.min.js"></script>
+  <script src="/website/plugins/owl.carousel/owl.carousel.min.js"></script>
+    <script src="~/admin/plugins/jquery-validation/jquery.validate.min.js"></script>
+  <script src="/website/js/home.js"></script>
+  <script src="/website/js/script.js"></script>
+    <script src="~/share/tedu.js"></script>
+     <script src="~/js/shared/shared.js"></script>
+  <script src="/website/plugins/uikit/uikit.min.js"></script>
+  <script src="/website/plugins/uikit/uikit-icons.min.js"></script>
+    @RenderSection("Scripts", required: false)
+   
+</body>
+
+</html>
